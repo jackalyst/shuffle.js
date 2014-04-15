@@ -1,9 +1,10 @@
 # shuffle.js
-============
 
-Based off of the Fisher-Yates (Knuth) Shuffle, and revised to allow a callback to keep things fixed. Keep in mind, using the callback may not give a truly balanced shuffle because only a certain number of attempts are made to shuffle.
+Based off of the Fisher-Yates (Knuth) Shuffle, and revised to allow a callback to keep things fixed in place. Keep in mind, using the callback may not give a truly balanced shuffle because only a certain number of attempts are made to shuffle.
 
-With that said, even with half of things locked, this function only performs at half of the performance of a pure Fisher-Yates shuffle.
+## A note on performance
+
+When using this as a 1 to 1 replacement with a bare bones knuth shuffle this performs at about 0.9x the speed. With a simple callback and half the values being 'fixed', that figure drops down to about 0.3x the speed.
 
 ## Basic Usage
 
@@ -21,7 +22,7 @@ var new_array = shuffle(array.slice());
 
 ## Usage with Callback
 
-The callback has two parameters, the first one is the array position, while the second contains the element of the array. For everything you want to be fixed in place, `true` must be returned
+The callback has two parameters, the first one contains the array key, while the second contains the value. For everything you want to be fixed in place, `true` must be returned.
 
 ```JavaScript
 function test_callback(n, element) {
@@ -34,7 +35,7 @@ function test_callback(n, element) {
 shuffle(array, test_callback);
 ```
 
-The default amount of attempts the shuffle makes is 3 before giving up and moving onto the next param. Depending on your usage you may want to change it to less or more. 0 will cause it to attempt and infinite amount of times, this however is not recommended.
+The default amount of attempts the shuffle makes is 3 before giving up and moving onto the next value. Depending on your usage you may want to change it to less or more. 0 will cause it to attempt and infinite amount of times, this however is not recommended.
 
 ```JavaScript
 function test_callback(n, element) {
