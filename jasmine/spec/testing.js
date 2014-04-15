@@ -9,22 +9,41 @@ describe("Testing without callback", function() {
     array[i] = i;
   };
 
-  it("Make sure less than 5% is the same", function() {
-    // Are we able to access shuffle?
-    var new_array = shuffle(array.slice());
-     var the_same = 0;
+  array_length = array.length;
+  it("Make sure less than 2% is the same", function() {
+    var total = 0;
+    var average = 0;
+    var pass = false;
+    var new_array = [];
+    var the_same = [];
 
-    // The same?
-    for (var i = array.length - 1; i >= 0; i--) {
-      if(array[i]==new_array[i]) {
-        the_same++;
-      }
-    };    
+    for (var j = repeat_tests - 1; j >= 0; j--) {
+      // Are we able to access shuffle?
+      new_array[j] = shuffle(array.slice());
+       the_same[j] = 0;
 
-    if(the_same<=5) {
-      the_same = true;
+      // The same?
+      for (var i = array_length - 1; i >= 0; i--) {
+        if(array[i]==new_array[j][i]) {
+          the_same[j]++;
+        }
+      };
+    };
+
+    // Average it out
+    for (var i = the_same.length - 1; i >= 0; i--) {
+      total += the_same[i];
+    };
+    average = total / the_same.length;
+
+    console.log(average);
+
+    if(average<3) {
+      pass = true;
+    } else {
+      pass = false;
     }
 
-    expect(the_same).toBe(true);
+    expect(pass).toBe(true);
   });
 });
